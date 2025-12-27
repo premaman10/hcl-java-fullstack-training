@@ -2,6 +2,7 @@ package com.example.CourseWebApllication.controller;
 
 import com.example.CourseWebApllication.model.Course;
 import com.example.CourseWebApllication.service.CourseService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,30 +13,25 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/courses")
+
 public class CourseController {
-
     @Autowired
-    private CourseService courseService;
+    CourseService courseService;
 
-    // ✅ GET all courses
     @GetMapping("/allCourses")
-    public ResponseEntity<List<Course>> getAllCourses() {
-        List<Course> courses = courseService.getAllCourses();
-        return new ResponseEntity<>(courses, HttpStatus.OK);
+    public ResponseEntity<List<Course>> getAllCourses(){
+        return new ResponseEntity<>(courseService.getAllCourses(), HttpStatus.OK);
     }
 
-    // ✅ GET course by ID
     @GetMapping("/{courseId}")
-    public ResponseEntity<Course> getCourseByCourseId(@PathVariable Integer courseId) {
-        Course course = courseService.getCourseBycourseId(courseId);
-        return new ResponseEntity<>(course, HttpStatus.OK);
+    public ResponseEntity<Course> getCourseCourseId(@PathVariable Integer courseId){
+        return new ResponseEntity<>(courseService.getCourseBycourseId(courseId), HttpStatus.FOUND);
     }
 
-    // ✅ POST create new course
     @PostMapping("/")
-    public ResponseEntity<Optional<Course>> saveCourse(@RequestBody Course newCourse) {
-        Optional<Course> savedCourse = courseService.saveCourse(newCourse);
-        return new ResponseEntity<>(savedCourse, HttpStatus.CREATED);
+    public ResponseEntity<Optional<Course>> saveCourse(@Valid @RequestBody Course newCourse)  {
+        return ResponseEntity.ok(courseService.saveCourse(newCourse));
     }
+
+
 }
-    
