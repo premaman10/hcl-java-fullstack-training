@@ -1,0 +1,717 @@
+## **1. Functional Interfaces in Java (Java 8+)**
+
+Functional interfaces are interfaces with **only one abstract method**. They are used to pass **behaviour (functions) as parameters**, especially with **lambda expressions**.
+
+**Why we need:**
+
+- Reduce boilerplate code (no need for full classes).
+- Enable **functional programming** style in Java.
+- Work easily with **Streams API**.
+
+**Common functional interfaces in your files:**
+
+### **A. Consumer & BiConsumer**
+
+### **1. Consumer<T>**
+
+- **What it is:** Takes an input and **performs an action**, returns nothing.
+- **Why use:** Useful when you want to **do something with a value**, like print, update, or save.
+- **Advantages:** Simple, works with collections and streams.
+- **Disadvantages:** Cannot return a value.
+
+**Example files:**
+
+- `ConsumerDemo.java`, `ConsumerSqrNum.java`
+- `ConsumerDemo$PrintGroceryltem.class` (inner class example for printing items)
+
+**Example usage:**
+
+```java
+Consumer<Integer> print = x -> System.out.println(x);
+print.accept(10);
+
+```
+
+### **2. BiConsumer<T,U>**
+
+- **What it is:** Takes **two inputs**, performs an action, returns nothing.
+- **Why use:** Useful when you need to **operate on two values**, e.g., a map key and value.
+- **Advantages:** Handles two arguments easily, works with collections.
+
+**Example files:**
+
+- `BiConsumerDemo.java`, `BiConsumerStringBuilder.java`, `BiConsumerAddEntries.java`
+
+**Example usage:**
+
+```java
+BiConsumer<String, Integer> printer = (name, age) -> System.out.println(name +" : " + age);
+printer.accept("Vishal",22);
+
+```
+
+### **B. Predicate & BiPredicate**
+
+### **1. Predicate<T>**
+
+- **What it is:** Takes an input and returns **true/false**.
+- **Why use:** Useful for **filtering collections** or **conditions**.
+- **Advantages:** Clean, works with streams (`filter()`).
+- **Disadvantages:** Only returns boolean.
+
+**Example files:**
+
+- `PredicateDemo.java`, `PredicateFilterEvenNum.java`, `PredicateFilterDuplicateSet.java`, `PredicateFilterName.java`
+
+**Example usage:**
+
+```java
+Predicate<Integer> isEven = x -> x %2 ==0;
+System.out.println(isEven.test(4));// true
+
+```
+
+### **2. BiPredicate<T,U>**
+
+- **What it is:** Takes **two inputs**, returns true/false.
+- **Why use:** Compare **two values**, e.g., map entries or object properties.
+- **Advantages:** Works well for validation or complex conditions.
+
+**Example files:**
+
+- `BiPredicateAddEntries.java`
+
+**Example usage:**
+
+```java
+BiPredicate<Integer, Integer> isGreater = (a,b) -> a > b;
+System.out.println(isGreater.test(10,5));// true
+
+```
+
+### **C. Function & BiFunction**
+
+### **1. Function<T,R>**
+
+- **What it is:** Takes input `T` and returns result `R`.
+- **Why use:** Transform data, map values in collections.
+- **Advantages:** Works with `map()`, reusable logic.
+- **Disadvantages:** Only one input.
+
+**Example files:**
+
+- `Funcinterface.java`, `Funcinterface.class`
+
+**Example usage:**
+
+```java
+Function<String, Integer> strLength = s -> s.length();
+System.out.println(strLength.apply("Vishal"));// 6
+
+```
+
+### **2. BiFunction<T,U,R>**
+
+- **What it is:** Takes **two inputs**, returns a result.
+- **Why use:** Combine or calculate based on **two values**, e.g., add numbers, calculate GCD/LCM.
+- **Advantages:** Handles two inputs directly.
+
+**Example files:**
+
+- `BiFunc.java`, `BiFuncGCD.java`, `BiFuncLCM.java`, `BiFunAddTwoNum.java`, `BiFunTotalAmt.java`
+
+**Example usage:**
+
+```java
+BiFunction<Integer, Integer, Integer> add = (a,b) -> a+b;
+System.out.println(add.apply(5,3));// 8
+
+```
+
+### **D. Supplier<T>**
+
+- **What it is:** Produces a value, **no input required**.
+- **Why use:** Generate objects, random numbers, or default values.
+- **Advantages:** Lazy generation, works with streams.
+- **Disadvantages:** Cannot take input.
+
+**Example files:**
+
+- `SupplierDemo.java`, `SupplierRanNum.java`
+
+**Example usage:**
+
+```java
+Supplier<Integer> randomNum = () -> (int)(Math.random() *1000);
+System.out.println(randomNum.get());
+
+```
+
+### **E. Streams API**
+
+- **What it is:** Provides a **functional way to process collections**.
+- **Why use:** Filter, map, reduce, and collect data easily.
+- **Advantages:** Concise, readable, works with large data, parallel processing supported.
+- **Disadvantages:** Can be tricky for beginners; sometimes less intuitive than loops.
+
+**Example files:**
+
+- `StreamAP1.java`, `StreamEvenOdd.java`, `StreamTemperature.java`
+
+**Example usage:**
+
+```java
+List<Integer> nums = List.of(1,2,3,4,5);
+nums.stream().filter(n -> n%2==0).forEach(System.out::println);
+
+```
+
+### **F. Other Notes / Student Lambda**
+
+- `Student.java`, `StudentLambda.java` → Examples of using **lambda expressions with objects**.
+- Shows **sorting, filtering, or printing students** with functional style.
+
+### **G. Total Amount Finder / Consumer / BiFunction Examples**
+
+- `TotalAmountFinder.java`, `BiFunTotalAmt.java` → Examples combining **Function, BiFunction, Consumer** to calculate totals, map data, and print results.
+
+## 
+
+# **Java Multithreading, Executors, Record, Date-Time & Collectors**
+
+---
+
+## **1. Threads in Java**
+
+### **ThreadDemo.java, AddingArrEleUseThreads.java**
+
+- **What it is:** A thread is a **lightweight process** for running code **concurrently**.
+- **Why we need:**
+    - Perform multiple tasks at the same time.
+    - Improve performance in CPU-intensive or I/O tasks.
+- **How to create:**
+    1. Extend `Thread` class.
+    2. Implement `Runnable` interface.
+- **Advantages:** Faster execution, responsive apps.
+- **Disadvantages:** Complex debugging, risk of race conditions, requires synchronization.
+
+**Example:**
+
+```java
+classMyThreadextendsThread {
+publicvoidrun() {
+        System.out.println("Thread running");
+    }
+}
+
+```
+
+---
+
+### **2. Runnable & ExecutorService**
+
+### **ExecutorRunnable.java, ExecutorServiceDemo.java**
+
+- **Runnable:** Interface for tasks to run in a thread, does not return result.
+- **ExecutorService:** High-level API to **manage thread pools**.
+- **Why use ExecutorService:**
+    - Avoid manually creating threads.
+    - Control pool size, reuse threads, manage tasks efficiently.
+- **Advantages:** Better resource management, scalability.
+- **Disadvantages:** Slight overhead, need proper shutdown.
+
+**Example:**
+
+```java
+ExecutorServiceexecutor= Executors.newFixedThreadPool(2);
+executor.submit(() -> System.out.println("Task running"));
+executor.shutdown();
+
+```
+
+---
+
+### **3. Callable & Future**
+
+### **CallableFact.java**
+
+- **Callable:** Like Runnable but **returns a value** and can throw exceptions.
+- **Future:** Holds the result of a Callable.
+- **Why use:** When you need **results from threads**.
+- **Advantages:** Get results asynchronously, handle exceptions.
+
+**Example:**
+
+```java
+Callable<Integer> task = () ->5 *5;
+Future<Integer> result = executor.submit(task);
+System.out.println(result.get());
+
+```
+
+---
+
+### **4. Thread Keywords**
+
+### **AdvVarKeyword.java**
+
+- **volatile:** Ensures visibility of variable changes across threads.
+- **synchronized:** Ensures **one thread at a time** executes a method/block.
+- **Why use:** Prevent **race conditions** and data inconsistency.
+
+**Example:**
+
+```java
+volatileint count;
+synchronizedvoidincrement() { count++; }
+
+```
+
+---
+
+### **5. Comparable & Records**
+
+### **ComparableInterface.java, ComparableInterfaceRecord.java, recordDemo.java**
+
+- **Comparable:** Interface to define **natural ordering** for objects (`compareTo()`).
+- **Record:** Java 14+ feature to create **immutable data classes** easily.
+- **Why use:**
+    - Comparable → sort objects easily.
+    - Records → reduce boilerplate for simple data classes.
+- **Advantages:** Clean, concise, immutable (for records).
+- **Disadvantages:** Records are less flexible (cannot extend other classes).
+
+**Example:**
+
+```java
+recordStudent(String name, int age) {}
+Students=newStudent("Vishal",22);
+
+```
+
+---
+
+### **6. Date-Time APIs**
+
+### **DateTimeApis.java**
+
+- **What it is:** Modern API (`java.time`) for **dates and times**.
+- **Why use:** Old `Date`/`Calendar` were error-prone and mutable.
+- **Advantages:** Immutable, thread-safe, rich functionality.
+
+**Example:**
+
+```java
+LocalDatetoday= LocalDate.now();
+LocalDatenextWeek= today.plusWeeks(1);
+
+```
+
+---
+
+### **7. Collectors API**
+
+### **CollectorsAPIDemo.java**
+
+- **What it is:** Utility class for **collecting Stream results**.
+- **Why use:** Aggregate data from streams (lists, sets, maps, sums, averages).
+- **Advantages:** Simplifies grouping, counting, mapping.
+
+**Example:**
+
+```java
+List<String> names = List.of("Alice","Bob","Alice");
+Map<String, Long> counts = names.stream()
+    .collect(Collectors.groupingBy(n -> n, Collectors.counting()));
+
+```
+
+# **File Handling in Java**
+
+---
+
+## **1. File I/O in Java**
+
+- **What it is:** Java provides classes to **read, write, copy, and manipulate files** in the file system.
+- **Why we need:**
+    - Store persistent data.
+    - Read configuration, logs, or user data.
+    - Work with text, binary, or structured files.
+- **Key classes:** `Files`, `Paths`, `File`, `BufferedReader`, `BufferedWriter`, `PrintWriter`.
+- **Advantages:** Simple APIs, integrates with NIO (`java.nio.file`).
+- **Disadvantages:** Need to handle exceptions, can be slow for large files if not optimized.
+
+---
+
+## **2. Listing Files & Directories**
+
+### **ListDir.java, FileCheck.java**
+
+- **What it is:** List files/folders in a directory, check if a file exists.
+- **Why use:** To process multiple files automatically.
+
+**Example:**
+
+```java
+Pathdir= Paths.get("/home/user");
+Files.list(dir).forEach(System.out::println);
+
+Pathfile= Paths.get("data.txt");
+if(Files.exists(file)) System.out.println("File exists");
+
+```
+
+---
+
+## **3. Reading Files**
+
+### **FileReadGenStats.java, FileReadPrintWrite.java**
+
+- **What it is:** Read file contents as lines, bytes, or characters.
+- **Why use:** To process data stored in files.
+- **Advantages:** Simple, supports Streams API.
+- **Disadvantages:** Large files can consume memory if read all at once.
+
+**Example:**
+
+```java
+List<String> lines = Files.readAllLines(Paths.get("data.txt"));
+lines.forEach(System.out::println);
+
+```
+
+---
+
+## **4. Writing / Copying Files**
+
+### **FileCopy.java, FileReadPrintWrite.java**
+
+- **What it is:** Copy, write, or modify files.
+- **Why use:** Backup data, generate reports, save processed results.
+
+**Example (Copy):**
+
+```java
+Pathsource= Paths.get("data.txt");
+Pathtarget= Paths.get("copyData.txt");
+Files.copy(source, target, StandardCopyOption.REPLACE_EXISTING);
+
+```
+
+**Example (Write):**
+
+```java
+Files.writeString(Paths.get("output.txt"),"Hello World");
+
+```
+
+---
+
+## **5. File Search Utility**
+
+### **FileSearchUtility.java**
+
+- **What it is:** Search files in a directory **recursively** using criteria (name, size, last modified).
+- **Why use:** To find specific files quickly in a directory tree.
+
+**Example:**
+
+```java
+BiPredicate<Path, BasicFileAttributes> filter = (path, attrs) ->
+    path.toString().endsWith(".java") && attrs.size() >1024;
+Files.find(Paths.get("/home/user"), Integer.MAX_VALUE, filter)
+     .forEach(System.out::println);
+
+```
+
+## **6. Duplicate File Finder**
+
+### **DuplicateFileFinder.java**
+
+- **What it is:** Detect files with **identical content** using hash (SHA-256 / MD5).
+- **Why use:** Save disk space, remove redundant files.
+- **Advantages:** Accurate, can group duplicates, optional deletion.
+- **Disadvantages:** Large files can take time to hash.
+
+**Example logic:**
+
+1. Walk all files (`Files.walk()`).
+2. Compute SHA-256 hash.
+3. Store in Map → hash as key, file list as value.
+4. Identify duplicates (value list size > 1).
+
+# DBMS
+
+## DBMS vs File System
+
+### **1. Data Redundancy**
+
+- **File System:** High (same data stored many times)
+- **DBMS:** Low (data stored once)
+
+---
+
+### **2. Data Searching**
+
+- **File System:** Slow, mostly manual
+- **DBMS:** Fast, uses queries (SQL)
+
+---
+
+### **3. Data Integrity & Consistency (Concurrent Users)**
+
+- **File System:** Not maintained
+- **DBMS:** Properly maintained for many users
+
+---
+
+### **4. Data Security**
+
+- **File System:** Very limited
+- **DBMS:** Strong security (users, roles, passwords)
+
+---
+
+### **5. Database Security**
+
+- **File System:** No database-level security
+- **DBMS:** Full database-level security
+
+---
+
+### **6. Data Relationships**
+
+- **File System:** No relation between files
+- **DBMS:** Relationships using keys
+
+---
+
+### **7. Backup & Recovery**
+
+- **File System:** Manual backup
+- **DBMS:** Automatic backup and recovery
+
+### **Data Independence**
+
+→ We can change data **without changing the program**.
+
+There are **two types**:
+
+### **1. Logical Data Independence**
+
+- Change in **logical schema**
+- Example: add/remove a column, change table structure
+- **No change** in application code
+
+### **2. Physical Data Independence**
+
+- Change in **physical storage**
+- Example: change data structure, indexing method
+- **No change** in logical schema or program
+
+### **Data Storage**
+
+Data in DB is stored using **tree data structures**, like:
+
+- **B+ Tree**
+- **B- Tree**
+
+These help in fast searching, inserting, and deleting data in **O(log n)** time.
+
+## **Relational Database – Terminologies**
+
+### **1. Field**
+
+- A **single value** in a table
+- It is the meeting point of **row and column**
+- **Example:** `vkc@gmail.com` in the **Email** column
+
+---
+
+### **2. Tuple**
+
+- A **row** in a table
+- Represents **one record**
+- **Example:**
+    
+    `(101, Vishal Kumar, vkc@example.com, 2000-01-01, CSE101)`
+    
+
+---
+
+### **3. Attribute**
+
+- A **column** in a table
+- Describes a property
+- **Example:** `Email` is an attribute of Students table
+
+## **Keys in DBMS**
+
+### **What is a Key?**
+
+→ A key is used to **uniquely identify a row**
+
+### **Why is it required?**
+
+- To avoid **duplicate data**
+- To find data **easily**
+- To maintain **data integrity**
+
+---
+
+### **4. Key**
+
+- An attribute (or set of attributes) that uniquely identifies a tuple
+- **Example:** `StudentID`
+
+---
+
+### **5. Simple Key**
+
+- A **single attribute** key
+- **Example:** `StudentID`
+
+---
+
+### **6. Compound Key**
+
+- A key with **two or more attributes**
+- **Example:** `(StudentID, CourseID)`
+
+---
+
+### **7. Candidate Key**
+
+- Possible keys that can uniquely identify a tuple
+- **Cannot be NULL**
+- A table can have **many candidate keys**
+- **Example:** `StudentID`, `Email`
+
+---
+
+### **8. Primary Key**
+
+- The **chosen candidate key**
+- **Unique + NOT NULL**
+- Only **one primary key**
+- **Example:** `StudentID`
+
+---
+
+### **9. Secondary Key**
+
+- Used for **searching**
+- **Not unique**
+- **Example:** `CourseID`
+
+---
+
+### **10. Super Key**
+
+- Any key that uniquely identifies a tuple
+- May have **extra attributes**
+- **Example:**
+    
+    `(StudentID)`
+    
+    `(StudentID, Email)`
+    
+
+---
+
+### **11. Foreign Key**
+
+- A key that **refers to primary key of another table**
+- Maintains **referential integrity**
+- **Example:**
+    
+    `CourseID` in Students → `CourseID` in Courses table
+    
+
+## **Attributes**
+
+→ An **attribute** is a **column** in a table.
+
+## **Types of Attributes**
+
+### **1. Simple Attribute**
+
+- Cannot be divided
+- Single value
+- **Example:** Age, RollNo
+
+---
+
+### **2. Composite Attribute**
+
+- Can be divided into parts
+- **Example:**
+    
+    Name → FirstName, LastName
+    
+    Address → City, State, PIN
+    
+
+---
+
+### **3. Multi-valued Attribute**
+
+- Can have **more than one value**
+- **Example:** PhoneNumber, Skills
+
+---
+
+### **4. Complex Attribute**
+
+- Combination of **composite + multi-valued**
+- **Example:**
+    
+    Multiple Addresses (each address has street, city, pin)
+    
+
+---
+
+### **5. Key Attribute**
+
+- Used to **identify records**
+- **Example:** StudentID
+
+### **6. Non-Key Attribute**
+
+- Not used for identification
+- **Example:** Name, Age
+
+---
+
+### **7. Required Attribute**
+
+- **Must have a value**
+- Cannot be NULL
+- **Example:** StudentID
+
+---
+
+### **8. Optional Attribute**
+
+- Value is **not compulsory**
+- Can be NULL
+- **Example:** MiddleName
+
+---
+
+###Normalisation
+-> Remove/Reduce Redundancy
+—> Row Level duplicacy
+-> Column level (Insertion, Updation, Deletion Anomaly)
+
+###First Normal Form
+Should not be any multivalued attribute in the table
+
+###Second Normal Form
+-> Table should be in 1st NF
+-> All Non Prime attributes should be fully functional dependent on the candidate key
+   Or in other words there should no partial dependency
+-> Exampale
+   R(ABCDE),FD = {A->B,BC->D,E->C,D->A}
+   R(ABCDEFGH),FD= {CH->G,A->BC,B->CFH,E->A,F->EG}
+   CK={AD,BD,FD,ED}
