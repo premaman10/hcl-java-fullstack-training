@@ -1,5 +1,8 @@
 package com.example.CourseWebApllication.controller;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
+
+
 import com.example.CourseWebApllication.model.Course;
 import com.example.CourseWebApllication.service.CourseService;
 import jakarta.validation.Valid;
@@ -12,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
-
+@CrossOrigin("http://localhost:5173/")
 @Slf4j
 @RestController
 @RequestMapping("/courses")
